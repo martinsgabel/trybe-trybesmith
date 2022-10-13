@@ -17,4 +17,21 @@ export default class UsersS {
     const token = jwt.sign({ res }, secret, config);
     return { token };
   }
+
+  // async checkUser(username: string, password: string): Promise<void> {
+  //   if (!username) return { status: 400, message: '"username" is required' };
+
+  //   if (!password) return { status: 400, message: '"password" is required' };
+
+  //   const user = await this.model.checkUser(username, password);
+
+  //   if (!user) return { status: 401, message: 'Username or password invalid' };
+  // }
+
+  async loginUser(username: string, password: string): Promise<Token> {
+    const user = await this.model.checkUser(username, password);
+
+    const token = jwt.sign({ user }, secret, config);
+    return { token };
+  }
 }
