@@ -1,4 +1,4 @@
-import { Pool } from 'mysql2/promise';
+import { Pool, RowDataPacket } from 'mysql2/promise';
 import { Order } from '../interfaces';
 
 export default class OrdersM {
@@ -9,9 +9,13 @@ export default class OrdersM {
   }
 
   async AllOrders(): Promise<Order[]> {
-    const res = await this.connection
-      .execute('SELECT * FROM Trybesmith.Orders');
-    const [rows] = res;
-    return rows as Order[];
+    const [res] = await this.connection
+      .execute<RowDataPacket[]>(`SELECT Trybesmith.Orders.id, Trybesmith.Orders.userId,
+      JSON_ARRAYAGG(Trybesmith.Products.id) AS productsIds
+      FROM Trybesmith.Orders INNER JOIN Trybesmith.Products
+      ON Trybesmith.Orders.id = Trybesmith.Products.orderId
+      GROUP BY Trybesmith.Orders.id
+      ORDER BY Trybesmith.Orders.userId`);
+    return res as Order[];
   }
 }

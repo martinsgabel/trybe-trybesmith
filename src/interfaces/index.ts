@@ -6,7 +6,7 @@ export interface Product {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   username: string;
   classe: string;
   level: string;
@@ -17,4 +17,8 @@ export interface Order {
   id: number;
   userId: number;
   productsIds: number[];
+}
+
+export interface Token {
+  token: string;
 }
