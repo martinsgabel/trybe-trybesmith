@@ -12,4 +12,10 @@ export default class ProductsC {
     const result = await this.service.AllProducts();
     res.status(200).json(result);
   };
+
+  AddProducts = async (req: Request, res: Response) => {
+    const { name, amount } = req.body;
+    const result = await this.service.AddProducts({ name, amount });
+    res.status(201).json(result);
+  };
 }

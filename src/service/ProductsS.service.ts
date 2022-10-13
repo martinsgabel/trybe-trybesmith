@@ -13,4 +13,9 @@ export default class ProductsS {
     const res = await this.model.AllProducts();
     return res;
   }
+
+  async AddProducts(info: Product): Promise<Product> {
+    const res = await this.model.AddProducts(info);
+    return res;
+  }
 }

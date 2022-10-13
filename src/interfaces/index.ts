@@ -1,8 +1,8 @@
 export interface Product {
-  id: number;
+  id?: number;
   name: string;
   amount: string;
-  orderId: number;
+  orderId?: number;
 }
 
 export interface User {
@@ -16,4 +16,5 @@ export interface User {
 export interface Order {
   id: number;
   userId: number;
+  productsIds: number[];
 }
