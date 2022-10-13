@@ -3,6 +3,7 @@ import { Token, User } from '../interfaces';
 import connection from '../models/connection';
 import UsersM from '../models/UsersM.model';
 import { secret, config } from '../middlewares/jwtConfig';
+import ErrorCustom from '../helper/ErrorCustom';
 
 export default class UsersS {
   model: UsersM;
@@ -18,15 +19,17 @@ export default class UsersS {
     return { token };
   }
 
-  // async checkUser(username: string, password: string): Promise<void> {
-  //   if (!username) return { status: 400, message: '"username" is required' };
+  async checkUser(username: string, password: string): Promise<User | void> {
+    if (!username) throw new ErrorCustom('"username" is required', 400);
 
-  //   if (!password) return { status: 400, message: '"password" is required' };
+    if (!password) throw new ErrorCustom('"password" is required', 400);
 
-  //   const user = await this.model.checkUser(username, password);
+    const user = await this.model.checkUser(username, password);
 
-  //   if (!user) return { status: 401, message: 'Username or password invalid' };
-  // }
+    if (!user) throw new ErrorCustom('Username or password invalid', 401);
+
+    return user;
+  }
 
   async loginUser(username: string, password: string): Promise<Token> {
     const user = await this.model.checkUser(username, password);
