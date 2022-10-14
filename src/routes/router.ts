@@ -12,6 +12,6 @@ routers.get('/products', productsC.AllProducts);
 routers.post('/products', productsC.AddProducts);
 routers.get('/orders', ordersC.AllOrders);
 routers.post('/users', usersC.newUser);
-// routers.post('/login', usersC.loginUser);
+routers.post('/login', usersC.loginUser);
 
 export default routers;

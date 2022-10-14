@@ -19,20 +19,21 @@ export default class UsersS {
     return { token };
   }
 
-  async checkUser(username: string, password: string): Promise<User | void> {
+  async checkUser(username: string, password: string): Promise<User | void> {    
     if (!username) throw new ErrorCustom('"username" is required', 400);
 
     if (!password) throw new ErrorCustom('"password" is required', 400);
 
     const user = await this.model.checkUser(username, password);
+    console.log(user);
 
-    if (!user) throw new ErrorCustom('Username or password invalid', 401);
+    if (!user || user === null) throw new ErrorCustom('Username or password invalid', 401);
 
     return user;
   }
 
   async loginUser(username: string, password: string): Promise<Token> {
-    const user = await this.model.checkUser(username, password);
+    const user = await this.checkUser(username, password);
 
     const token = jwt.sign({ user }, secret, config);
     return { token };

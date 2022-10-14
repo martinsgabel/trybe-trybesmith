@@ -19,6 +19,7 @@ export default class UsersM {
   async checkUser(username: string, password: string): Promise<User> {
     const [[user]] = await this.connection
       .execute<(User & RowDataPacket)[]>(`SELECT * 
+      FROM Trybesmith.Users
       WHERE username = ?
       AND password = ?`, [username, password]);
     return user as User;
